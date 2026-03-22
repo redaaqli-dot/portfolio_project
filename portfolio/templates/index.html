@@ -13,22 +13,14 @@
             </p>
             <div class="hero-actions">
                 <a href="#projects" class="btn-primary">Voir mon arsenal</a>
-                {% if config.resume_filename %}
-                    <a href="{{ url_for('main.uploaded_cv', filename=config.resume_filename) }}" target="_blank" class="btn-outline">Télécharger CV.pdf</a>
-                {% endif %}
+                <a href="{{ url_for('static', filename='files/cv.pdf') }}" target="_blank" class="btn-outline">Télécharger CV.pdf</a>
             </div>
         </div>
 
         <div class="hero-image-container" style="display: flex; justify-content: flex-end;">
-            {% if config.profile_image_filename %}
-                <img src="{{ url_for('main.uploaded_profile', filename=config.profile_image_filename) }}" 
-                     alt="Photo de profil de {{ config.full_name }}" 
-                     style="width: 100%; max-width: 420px; aspect-ratio: 4/5; object-fit: cover; border-radius: 20px; border: 2px solid var(--cyber-green); box-shadow: 0 10px 40px rgba(0, 255, 204, 0.15); transition: all 0.3s ease;">
-            {% else %}
-                <div class="profile-placeholder" style="width: 100%; max-width: 420px; aspect-ratio: 4/5; border-radius: 20px; border: 2px dashed var(--card-border); display: flex; align-items: center; justify-content: center;">
-                    <div class="glitch-overlay">SYS_ADMIN</div>
-                </div>
-            {% endif %}
+            <img src="{{ url_for('static', filename='images/profile.png') }}" 
+                 alt="Photo de profil de {{ config.full_name }}" 
+                 style="width: 100%; max-width: 420px; aspect-ratio: 4/5; object-fit: cover; border-radius: 20px; border: 2px solid var(--cyber-green); box-shadow: 0 10px 40px rgba(0, 255, 204, 0.15); transition: all 0.3s ease;">
         </div>
 
     </div>
