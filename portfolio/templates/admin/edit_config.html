@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Éditer Config | R_AQLI{% endblock %}
+
+{% block content %}
+<section class="admin-section" style="padding: 20px 0 50px 0;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="font-size: 1.5rem;"><span class="cyber-accent">#</span> Éditeur de Configuration</h2>
+        <a href="{{ url_for('main.admin_dashboard') }}" class="btn-outline"><- Retour</a>
+    </div>
+
+    <div class="project-card">
+        <form method="POST" action="{{ url_for('main.edit_config') }}" style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <div style="padding-bottom: 15px; border-bottom: 1px solid var(--card-border);">
+                <h4 style="color: var(--cyber-blue); margin-bottom: 15px; font-family: var(--font-mono);">[ IDENTITÉ ]</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Nom complet</label>
+                        <input type="text" name="full_name" value="{{ config.full_name }}" required
+                               style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); font-family: var(--font-sans); border-radius: 4px;">
+                    </div>
+                    <div>
+                        <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Rôle</label>
+                        <input type="text" name="role" value="{{ config.role }}" required
+                               style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); font-family: var(--font-sans); border-radius: 4px;">
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding-bottom: 15px; border-bottom: 1px solid var(--card-border);">
+                <h4 style="color: var(--cyber-blue); margin-bottom: 15px; font-family: var(--font-mono);">[ TEXTES HERO & ABOUT ]</h4>
+                
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Phrase d'accroche (Hero)</label>
+                <input type="text" name="hero_intro" value="{{ config.hero_intro }}" 
+                       style="width: 100%; padding: 10px; margin-bottom: 15px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Description courte (Hero)</label>
+                <textarea name="hero_secondary" rows="3" 
+                          style="width: 100%; padding: 10px; margin-bottom: 15px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px; resize: vertical;">{{ config.hero_secondary }}</textarea>
+
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">À propos (Paragraphe 1)</label>
+                <textarea name="about_main" rows="4" 
+                          style="width: 100%; padding: 10px; margin-bottom: 15px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px; resize: vertical;">{{ config.about_main }}</textarea>
+                
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">À propos (Paragraphe 2)</label>
+                <textarea name="about_secondary" rows="4" 
+                          style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px; resize: vertical;">{{ config.about_secondary }}</textarea>
+            </div>
+
+            <div><div style="padding-bottom: 15px; border-bottom: 1px solid var(--card-border);">
+                <h4 style="color: var(--cyber-blue); margin-bottom: 15px; font-family: var(--font-mono);">[ COMPÉTENCES & ATOUTS ]</h4>
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 15px;">Séparez chaque élément par une virgule pour créer des badges (ex: Java, Python, C++).</p>
+                
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Stack IT & Langages</label>
+                <input type="text" name="programming_languages" value="{{ config.programming_languages }}" 
+                       style="width: 100%; padding: 10px; margin-bottom: 15px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Langues</label>
+                <input type="text" name="languages" value="{{ config.languages }}" 
+                       style="width: 100%; padding: 10px; margin-bottom: 15px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Atouts (Soft Skills)</label>
+                <input type="text" name="strengths" value="{{ config.strengths }}" 
+                       style="width: 100%; padding: 10px; margin-bottom: 15px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Parascolaire & Intérêts</label>
+                <input type="text" name="extracurricular" value="{{ config.extracurricular }}" 
+                       style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+            </div>
+            
+                <h4 style="color: var(--cyber-blue); margin-bottom: 15px; font-family: var(--font-mono);">[ RÉSEAUX SOCIAUX ]</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">URL LinkedIn</label>
+                        <input type="url" name="linkedin" value="{{ config.linkedin }}" 
+                               style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+                    </div>
+                    <div>
+                        <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">URL GitHub</label>
+                        <input type="url" name="github" value="{{ config.github }}" 
+                               style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 10px; font-size: 1.1rem; padding: 15px;">
+                >_ Sauvegarder les modifications
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

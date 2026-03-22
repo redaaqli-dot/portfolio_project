@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Authentification | R_AQLI{% endblock %}
+
+{% block content %}
+<section style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+    <div class="project-card" style="width: 100%; max-width: 400px; text-align: center;">
+        
+        <h2 style="margin-bottom: 20px; font-family: var(--font-mono); font-size: 1.5rem;">
+            <span class="cyber-bracket">[</span> SYSTEM_LOGIN <span class="cyber-bracket">]</span>
+        </h2>
+        
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 30px;">
+            Accès restreint. Veuillez vous identifier.
+        </p>
+
+        <form method="POST" action="{{ url_for('main.admin_login') }}" style="display: flex; flex-direction: column; gap: 20px;">
+            <input type="password" name="password" placeholder="Clé d'accès..." required 
+                   style="padding: 12px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); font-family: var(--font-mono); border-radius: 4px; outline: none;">
+            
+            <button type="submit" class="btn-primary" style="width: 100%; cursor: pointer;">
+                Initialiser la connexion
+            </button>
+        </form>
+        
+    </div>
+</section>
+{% endblock %}

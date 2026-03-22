@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} | R_AQLI{% endblock %}
+
+{% block content %}
+<section class="project-detail-section" style="padding: 50px 0;">
+    <div class="project-detail-header" style="margin-bottom: 40px;">
+        <a href="{{ url_for('main.index') }}#projects" class="btn-outline" style="margin-bottom: 20px; display: inline-block;"><- Retour à l'arsenal</a>
+        
+        <p class="project-category" style="margin-top: 20px;">{{ project.category }}</p>
+        <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 15px;">{{ project.title }}</h1>
+        
+        <div class="project-tech" style="border-top: none; padding-top: 0; font-size: 1rem;">
+            >_ Stack Technique : <span class="cyber-accent">{{ project.stack }}</span>
+        </div>
+    </div>
+
+    <div class="project-detail-body">
+        <div class="project-image-container" style="margin-bottom: 40px;">
+            {% if project.image_filename %}
+                <img src="#" alt="{{ project.title }}" style="width: 100%; border-radius: 8px; border: 1px solid var(--cyber-green);">
+            {% else %}
+                <div class="profile-placeholder" style="height: 300px; width: 100%;">
+                    <div class="glitch-overlay">IMAGE_NON_DISPONIBLE</div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="project-description-full" style="margin-bottom: 40px;">
+            <h3 class="section-title" style="font-size: 1.5rem;"><span class="cyber-accent">#</span> Rapport de mission</h3>
+            <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">
+                {{ project.full_description or project.short_description }}
+            </p>
+        </div>
+
+        <div class="hero-actions">
+            {% if project.github_url %}
+                <a href="{{ project.github_url }}" target="_blank" class="btn-outline">Code Source (GitHub)</a>
+            {% endif %}
+            {% if project.demo_url %}
+                <a href="{{ project.demo_url }}" target="_blank" class="btn-primary">Voir la Démo</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

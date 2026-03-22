@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Reda Aqli | Cybersécurité{% endblock %}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('main.index') }}" class="nav-logo">
+                <span class="cyber-bracket">[</span> R_AQLI <span class="cyber-bracket">]</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('main.index') }}#about">01. About</a></li>
+                <li><a href="{{ url_for('main.index') }}#projects">02. Projets</a></li>
+                <li><a href="{{ url_for('main.index') }}#contact">03. Contact</a></li>
+<li><a href="{{ url_for('main.admin_login') }}" class="btn-outline">Admin_Login</a></li>            </ul>
+        </div>
+    </nav>
+
+   <main class="main-content">
+        <div class="flash-messages" style="margin-bottom: 20px;">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div style="padding: 15px; border-radius: 4px; margin-bottom: 10px; background: var(--bg-secondary); border-left: 4px solid {% if category == 'success' %}var(--cyber-green){% else %}#ff003c{% endif %}; color: var(--text-main); font-family: var(--font-mono); font-size: 0.9rem;">
+                            >_ {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Reda Aqli. Conçu pour la sécurité.</p>
+            <div class="social-links">
+                {% if config and config.linkedin %}
+                    <a href="{{ config.linkedin }}" target="_blank" class="cyber-link">LinkedIn</a>
+                {% endif %}
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

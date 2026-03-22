@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Com-Link | R_AQLI{% endblock %}
+
+{% block content %}
+<section class="admin-section" style="padding: 20px 0 50px 0;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="font-size: 1.5rem;"><span class="cyber-accent">#</span> Centre de Communications</h2>
+        <a href="{{ url_for('main.admin_dashboard') }}" class="btn-outline"><- Retour au Dashboard</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        {% for msg in messages %}
+        <div class="project-card" style="padding: 20px;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 15px;">
+                <div>
+                    <h4 style="color: var(--cyber-blue); margin-bottom: 5px;">{{ msg.subject or 'Sans sujet' }}</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono);">
+                        De: <span style="color: var(--text-main);">{{ msg.name }}</span> ({{ msg.email }})
+                    </p>
+                </div>
+                <div style="text-align: right;">
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">{{ msg.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                    
+                    <form action="{{ url_for('main.delete_message', id=msg.id) }}" method="POST" onsubmit="return confirm('Purger ce message ?');">
+                        <button type="submit" style="background: transparent; border: 1px solid #ff003c; color: #ff003c; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem;">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+            <p style="white-space: pre-wrap; color: var(--text-main); line-height: 1.6;">{{ msg.message }}</p>
+        </div>
+        {% else %}
+        <div class="project-card" style="text-align: center; padding: 40px;">
+            <p style="color: var(--text-muted); font-family: var(--font-mono);">>_ Aucun signal détecté. La boîte de réception est vide.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</section>
+{% endblock %}

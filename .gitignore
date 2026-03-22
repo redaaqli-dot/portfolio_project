@@ -1,0 +1,17 @@
+# Environnement virtuel
+venv/
+
+# Fichiers de cache Python
+__pycache__/
+*.pyc
+
+# Base de données et variables d'environnement (Sécurité)
+instance/
+*.db
+.env
+
+# On ignore les uploads locaux (on les refera sur le serveur)
+uploads/cv/*
+!uploads/cv/.gitkeep
+uploads/profile/*
+!uploads/profile/.gitkeep

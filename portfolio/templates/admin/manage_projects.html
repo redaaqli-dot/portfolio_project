@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestion Arsenal | R_AQLI{% endblock %}
+
+{% block content %}
+<section class="admin-section" style="padding: 20px 0 50px 0;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="font-size: 1.5rem;"><span class="cyber-accent">#</span> Arsenal (Projets)</h2>
+        <div>
+            <a href="{{ url_for('main.add_project') }}" class="btn-primary" style="margin-right: 10px;">+ Nouveau Projet</a>
+            <a href="{{ url_for('main.admin_dashboard') }}" class="btn-outline"><- Retour</a>
+        </div>
+    </div>
+
+    <div class="project-card" style="padding: 0; overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead style="background: var(--bg-main); border-bottom: 1px solid var(--card-border);">
+                <tr>
+                    <th style="padding: 15px; font-family: var(--font-mono); color: var(--cyber-blue);">Titre</th>
+                    <th style="padding: 15px; font-family: var(--font-mono); color: var(--cyber-blue);">Catégorie</th>
+                    <th style="padding: 15px; font-family: var(--font-mono); color: var(--cyber-blue);">Stack</th>
+                    <th style="padding: 15px; font-family: var(--font-mono); color: var(--cyber-blue); text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in projects %}
+                <tr style="border-bottom: 1px solid rgba(0,255,204,0.05);">
+                    <td style="padding: 15px; font-weight: bold;">{{ p.title }}</td>
+                    <td style="padding: 15px; color: var(--text-muted);">{{ p.category }}</td>
+                    <td style="padding: 15px; font-family: var(--font-mono); font-size: 0.85rem;">{{ p.stack }}</td>
+                    <td style="padding: 15px; text-align: right; display: flex; gap: 10px; justify-content: flex-end;">
+                        <a href="{{ url_for('main.edit_project', id=p.id) }}" class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">Modifier</a>
+                        
+                        <form action="{{ url_for('main.delete_project', id=p.id) }}" method="POST" onsubmit="return confirm('Es-tu sûr de vouloir purger ce projet ?');">
+                            <button type="submit" class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem; border-color: #ff003c; color: #ff003c; cursor: pointer;">Purger</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="padding: 20px; text-align: center; color: var(--text-muted);">Aucun projet détecté dans la base.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</section>
+{% endblock %}

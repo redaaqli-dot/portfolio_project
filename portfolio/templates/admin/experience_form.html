@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if exp %}Modifier{% else %}Ajouter{% endif %} Expérience | R_AQLI{% endblock %}
+
+{% block content %}
+<section class="admin-section" style="padding: 20px 0 50px 0;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="font-size: 1.5rem;">
+            <span class="cyber-accent">#</span> 
+            {% if exp %}Éditer l'expérience{% else %}Nouvelle Expérience{% endif %}
+        </h2>
+        <a href="{{ url_for('main.manage_experiences') }}" class="btn-outline"><- Annuler</a>
+    </div>
+
+    <div class="project-card">
+        <form method="POST" action="{% if exp %}{{ url_for('main.edit_experience', id=exp.id) }}{% else %}{{ url_for('main.add_experience') }}{% endif %}" style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Titre du poste *</label>
+                    <input type="text" name="title" value="{{ exp.title if exp else '' }}" required
+                           style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Entreprise *</label>
+                    <input type="text" name="company" value="{{ exp.company if exp else '' }}" required
+                           style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+                </div>
+            </div>
+
+            <div>
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Période (ex: Juillet 2024 - Août 2024) *</label>
+                <input type="text" name="period" value="{{ exp.period if exp else '' }}" required
+                       style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); font-family: var(--font-mono); border-radius: 4px;">
+            </div>
+
+            <div>
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Description des missions</label>
+                <textarea name="description" rows="4" 
+                          style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px; resize: vertical;">{{ exp.description if exp else '' }}</textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 10px; font-size: 1.1rem; padding: 15px;">
+                >_ Sauvegarder l'expérience
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

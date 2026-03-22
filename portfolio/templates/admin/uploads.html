@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestion des Fichiers | R_AQLI{% endblock %}
+
+{% block content %}
+<section class="admin-section" style="padding: 20px 0 50px 0;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="font-size: 1.5rem;"><span class="cyber-accent">#</span> Gestionnaire de Fichiers</h2>
+        <a href="{{ url_for('main.admin_dashboard') }}" class="btn-outline"><- Retour</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+        
+        <div class="project-card">
+            <h4 style="color: var(--cyber-blue); margin-bottom: 15px; font-family: var(--font-mono);">[ PHOTO DE PROFIL ]</h4>
+            
+            {% if config.profile_image_filename %}
+                <p style="color: var(--cyber-green); font-size: 0.85rem; margin-bottom: 15px;">> Fichier actuel : {{ config.profile_image_filename }}</p>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('main.admin_uploads') }}" enctype="multipart/form-data">
+                <input type="file" name="profile_image" accept=".png, .jpg, .jpeg, .webp" required
+                       style="width: 100%; padding: 10px; margin-bottom: 15px; background: var(--bg-main); border: 1px dashed var(--card-border); color: var(--text-muted);">
+                <button type="submit" class="btn-primary" style="width: 100%;">Uploader l'image</button>
+            </form>
+        </div>
+
+        <div class="project-card">
+            <h4 style="color: var(--cyber-blue); margin-bottom: 15px; font-family: var(--font-mono);">[ CURRICULUM VITAE (PDF) ]</h4>
+            
+            {% if config.resume_filename %}
+                <p style="color: var(--cyber-green); font-size: 0.85rem; margin-bottom: 15px;">> Fichier actuel : {{ config.resume_filename }}</p>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('main.admin_uploads') }}" enctype="multipart/form-data">
+                <input type="file" name="cv_file" accept=".pdf" required
+                       style="width: 100%; padding: 10px; margin-bottom: 15px; background: var(--bg-main); border: 1px dashed var(--card-border); color: var(--text-muted);">
+                <button type="submit" class="btn-primary" style="width: 100%;">Uploader le PDF</button>
+            </form>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

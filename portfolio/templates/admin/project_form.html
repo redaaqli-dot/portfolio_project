@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if project %}Modifier {{ project.title }}{% else %}Nouveau Projet{% endif %} | R_AQLI
+{% endblock %}
+
+{% block content %}
+<section class="admin-section" style="padding: 20px 0 50px 0;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="font-size: 1.5rem;">
+            <span class="cyber-accent">#</span> 
+            {% if project %}Éditer: {{ project.title }}{% else %}Initialiser un Nouveau Projet{% endif %}
+        </h2>
+        <a href="{{ url_for('main.manage_projects') }}" class="btn-outline"><- Annuler</a>
+    </div>
+
+    <div class="project-card">
+        <form method="POST" 
+              action="{% if project %}{{ url_for('main.edit_project', id=project.id) }}{% else %}{{ url_for('main.add_project') }}{% endif %}" 
+              style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Titre du projet *</label>
+                    <input type="text" name="title" value="{{ project.title if project else '' }}" required
+                           style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Catégorie (ex: Web, Pentest)</label>
+                    <input type="text" name="category" value="{{ project.category if project else '' }}" 
+                           style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+                </div>
+            </div>
+
+            <div>
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Stack Technique (ex: Python, Flask, SQLite)</label>
+                <input type="text" name="stack" value="{{ project.stack if project else '' }}" 
+                       style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); font-family: var(--font-mono); border-radius: 4px;">
+            </div>
+
+            <div>
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Description courte (affichée sur l'accueil) *</label>
+                <textarea name="short_description" rows="2" required
+                          style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px; resize: vertical;">{{ project.short_description if project else '' }}</textarea>
+            </div>
+
+            <div>
+                <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Rapport complet (affiché sur la page détail)</label>
+                <textarea name="full_description" rows="5" 
+                          style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px; resize: vertical;">{{ project.full_description if project else '' }}</textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Lien GitHub</label>
+                    <input type="url" name="github_url" value="{{ project.github_url if project else '' }}" 
+                           style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;">Lien Démo en ligne</label>
+                    <input type="url" name="demo_url" value="{{ project.demo_url if project else '' }}" 
+                           style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 10px; font-size: 1.1rem; padding: 15px;">
+                >_ {% if project %}Sauvegarder les modifications{% else %}Déployer le projet{% endif %}
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

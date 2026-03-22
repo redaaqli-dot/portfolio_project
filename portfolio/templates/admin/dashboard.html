@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Admin | R_AQLI{% endblock %}
+
+{% block content %}
+<section class="admin-dashboard" style="padding: 20px 0 50px 0;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 20px; margin-bottom: 40px;">
+        <h1 style="font-size: 1.8rem;">
+            <span class="cyber-accent">root@portfolio</span>:~# dashboard
+        </h1>
+        <a href="{{ url_for('main.admin_logout') }}" class="btn-outline" style="border-color: #ff003c; color: #ff003c;">
+            Se déconnecter
+        </a>
+    </div>
+    
+    <div class="projects-grid">
+        
+        <div class="project-card" style="text-align: center; padding: 2rem 1.5rem;">
+            <h3 style="margin-bottom: 15px; font-size: 1.2rem;">⚙️ Paramètres du Site</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; min-height: 40px;">
+                Modifier les textes d'introduction, les liens sociaux et les informations de profil.
+            </p>
+            <a href="{{ url_for('main.edit_config') }}" class="btn-primary" style="width: 100%; display: block; box-sizing: border-box;">Éditer la Config</a>
+        </div>
+        
+        <div class="project-card" style="text-align: center; padding: 2rem 1.5rem;">
+            <h3 style="margin-bottom: 15px; font-size: 1.2rem;">📁 Arsenal (Projets)</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; min-height: 40px;">
+                Ajouter de nouveaux projets, modifier les existants ou les supprimer.
+            </p>
+            <a href="{{ url_for('main.manage_projects') }}" class="btn-primary" style="width: 100%; display: block; box-sizing: border-box;">Gérer les Projets</a>
+        </div>
+
+       <div class="project-card" style="text-align: center; padding: 2rem 1.5rem;">
+            <h3 style="margin-bottom: 15px; font-size: 1.2rem;">📤 Uploads Fichiers</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; min-height: 40px;">
+                Mettre à jour le CV (PDF) disponible en téléchargement et la photo de profil.
+            </p>
+            <a href="{{ url_for('main.admin_uploads') }}" class="btn-primary" style="width: 100%; display: block; box-sizing: border-box;">Gestion Fichiers</a>
+        </div>
+        <div class="project-card" style="text-align: center; padding: 2rem 1.5rem;">
+            <h3 style="margin-bottom: 15px; font-size: 1.2rem;">📨 Com-Link (Messages)</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; min-height: 40px;">
+                Consulter les requêtes envoyées via le formulaire de contact public.
+            </p>
+            <a href="{{ url_for('main.view_messages') }}" class="btn-primary" style="width: 100%; display: block; box-sizing: border-box;">Ouvrir la Boîte</a>
+        </div>
+        <div class="project-card" style="text-align: center; padding: 2rem 1.5rem;">
+            <h3 style="margin-bottom: 15px; font-size: 1.2rem;">💼 Expériences Pro</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; min-height: 40px;">
+                Gérer la chronologie de tes stages et expériences professionnelles.
+            </p>
+            <a href="{{ url_for('main.manage_experiences') }}" class="btn-primary" style="width: 100%; display: block; box-sizing: border-box;">Gérer Parcours</a>
+        </div>
+        
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero-section" style="min-height: 90vh; display: flex; align-items: center;">
+    <div class="hero-container" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 50px; align-items: center; width: 100%;">
+        
+        <div class="hero-content">
+            <p class="cyber-greeting">Hello, world. Je suis</p>
+            <h1 class="hero-title" style="font-size: clamp(35px, 6vw, 70px); line-height: 1.1; margin-bottom: 10px;">{{ config.full_name }}</h1>
+            <h2 class="hero-subtitle" style="font-size: clamp(25px, 4vw, 50px); color: var(--text-muted); line-height: 1.1; margin-bottom: 20px;">{{ config.role }}</h2>
+            <p class="hero-description" style="max-width: 550px; color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem; line-height: 1.6;">
+                {{ config.hero_secondary }}
+            </p>
+            <div class="hero-actions">
+                <a href="#projects" class="btn-primary">Voir mon arsenal</a>
+                {% if config.resume_filename %}
+                    <a href="{{ url_for('main.uploaded_cv', filename=config.resume_filename) }}" target="_blank" class="btn-outline">Télécharger CV.pdf</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="hero-image-container" style="display: flex; justify-content: flex-end;">
+            {% if config.profile_image_filename %}
+                <img src="{{ url_for('main.uploaded_profile', filename=config.profile_image_filename) }}" 
+                     alt="Photo de profil de {{ config.full_name }}" 
+                     style="width: 100%; max-width: 420px; aspect-ratio: 4/5; object-fit: cover; border-radius: 20px; border: 2px solid var(--cyber-green); box-shadow: 0 10px 40px rgba(0, 255, 204, 0.15); transition: all 0.3s ease;">
+            {% else %}
+                <div class="profile-placeholder" style="width: 100%; max-width: 420px; aspect-ratio: 4/5; border-radius: 20px; border: 2px dashed var(--card-border); display: flex; align-items: center; justify-content: center;">
+                    <div class="glitch-overlay">SYS_ADMIN</div>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
+<section id="about" class="about-section" style="padding: 100px 0;">
+    <h3 class="section-title"><span class="cyber-accent">01.</span> À propos & Compétences</h3>
+    
+    <div class="about-text">
+        <p>{{ config.about_main }}</p>
+        <p style="margin-bottom: 30px;">{{ config.about_secondary }}</p>
+        
+        <div style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            
+            <div class="project-card" style="padding: 15px;">
+                <h4 style="color: var(--cyber-blue); font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 10px;">>_ Stack IT & Langages</h4>
+                <div class="tags-container">
+                    {% if config.programming_languages %}
+                        {% for item in config.programming_languages.split(',') %}
+                            <span class="cyber-tag">{{ item.strip() }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="project-card" style="padding: 15px;">
+                <h4 style="color: var(--cyber-blue); font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 10px;">>_ Langues</h4>
+                <div class="tags-container">
+                    {% if config.languages %}
+                        {% for item in config.languages.split(',') %}
+                            <span class="cyber-tag cyber-tag-blue">{{ item.strip() }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="project-card" style="padding: 15px;">
+                <h4 style="color: var(--cyber-blue); font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 10px;">>_ Atouts (Soft Skills)</h4>
+                <div class="tags-container">
+                    {% if config.strengths %}
+                        {% for item in config.strengths.split(',') %}
+                            <span class="cyber-tag">{{ item.strip() }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="project-card" style="padding: 15px;">
+                <h4 style="color: var(--cyber-blue); font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 10px;">>_ Parascolaire & Intérêts</h4>
+                <div class="tags-container">
+                    {% if config.extracurricular %}
+                        {% for item in config.extracurricular.split(',') %}
+                            <span class="cyber-tag cyber-tag-blue">{{ item.strip() }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="journey" class="projects-section" style="padding-top: 50px;">
+    <h3 class="section-title"><span class="cyber-accent">02.</span> Parcours & Évolution</h3>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
+        
+        <div>
+            <h4 style="font-size: 1.5rem; margin-bottom: 30px; color: var(--text-main);"><span class="cyber-bracket">[</span> Expériences Pro <span class="cyber-bracket">]</span></h4>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                {% for exp in experiences %}
+                <div style="border-left: 2px solid var(--cyber-green); padding-left: 20px; position: relative;">
+                    <div style="position: absolute; width: 10px; height: 10px; background: var(--bg-main); border: 2px solid var(--cyber-green); border-radius: 50%; left: -6px; top: 5px;"></div>
+                    
+                    <h5 style="font-size: 1.1rem; color: var(--text-main);">{{ exp.title }}</h5>
+                    <p style="font-family: var(--font-mono); color: var(--cyber-blue); font-size: 0.85rem; margin-bottom: 10px;">
+                        @ {{ exp.company }} | {{ exp.period }}
+                    </p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">{{ exp.description }}</p>
+                </div>
+                {% else %}
+                <p style="color: var(--text-muted);">Données en cours d'acquisition...</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            <h4 style="font-size: 1.5rem; margin-bottom: 30px; color: var(--text-main);"><span class="cyber-bracket">[</span> Parcours Académique <span class="cyber-bracket">]</span></h4>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                {% for edu in educations %}
+                <div style="border-left: 2px solid var(--cyber-blue); padding-left: 20px; position: relative;">
+                    <div style="position: absolute; width: 10px; height: 10px; background: var(--bg-main); border: 2px solid var(--cyber-blue); border-radius: 50%; left: -6px; top: 5px;"></div>
+                    
+                    <h5 style="font-size: 1.1rem; color: var(--text-main);">{{ edu.degree }}</h5>
+                    <p style="font-family: var(--font-mono); color: var(--cyber-green); font-size: 0.85rem; margin-bottom: 10px;">
+                        @ {{ edu.institution }} | {{ edu.period }}
+                    </p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">{{ edu.description }}</p>
+                </div>
+                {% else %}
+                <p style="color: var(--text-muted);">Données en cours d'acquisition...</p>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="certifications" class="projects-section" style="padding-top: 50px;">
+    <h3 class="section-title"><span class="cyber-accent">03.</span> Certifications & Badges</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+        {% for cert in certifications %}
+        <div class="project-card" style="display: flex; align-items: center; gap: 15px; padding: 1.5rem;">
+            <div style="font-size: 2rem;">🏆</div>
+            <div>
+                <h5 style="font-size: 1rem; color: var(--text-main); line-height: 1.2; margin-bottom: 5px;">{{ cert.name }}</h5>
+                <p style="font-family: var(--font-mono); color: var(--text-muted); font-size: 0.8rem;">{{ cert.issuer }} | <span style="color: var(--cyber-green);">{{ cert.date_obtained }}</span></p>
+            </div>
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted);">Aucune certification scannée.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="projects" class="projects-section" style="padding-top: 50px;">
+    <h3 class="section-title"><span class="cyber-accent">04.</span> Projets & Arsenal</h3>
+    <div class="projects-grid">
+        {% for project in projects %}
+        <div class="project-card">
+            <div class="project-header">
+                <span class="project-category">{{ project.category }}</span>
+                <div class="project-links">
+                    <a href="{{ url_for('main.project_detail', slug=project.slug) }}">Détails -></a>
+                </div>
+            </div>
+            <h4 class="project-title">{{ project.title }}</h4>
+            <p class="project-description">{{ project.short_description }}</p>
+            <div class="project-tech">
+                {{ project.stack }}
+            </div>
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted);">Aucun projet n'est encore classifié dans la base de données.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="contact" class="about-section" style="padding: 50px 0;">
+    <h3 class="section-title"><span class="cyber-accent">05.</span> Établir une connexion</h3>
+    
+    <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <p style="color: var(--text-muted); margin-bottom: 30px;">
+            Mon canal de communication est ouvert. Que ce soit pour une opportunité, une question technique ou simplement pour échanger, n'hésitez pas.
+        </p>
+
+        <form method="POST" action="{{ url_for('main.submit_contact') }}" style="display: flex; flex-direction: column; gap: 15px; text-align: left;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <input type="text" name="name" placeholder="Votre nom / pseudo *" required
+                       style="width: 100%; padding: 12px; background: var(--bg-secondary); border: 1px solid var(--card-border); color: var(--text-main); font-family: var(--font-sans); border-radius: 4px; outline: none;">
+                
+                <input type="email" name="email" placeholder="Adresse email *" required
+                       style="width: 100%; padding: 12px; background: var(--bg-secondary); border: 1px solid var(--card-border); color: var(--text-main); font-family: var(--font-sans); border-radius: 4px; outline: none;">
+            </div>
+
+            <input type="text" name="subject" placeholder="Sujet"
+                   style="width: 100%; padding: 12px; background: var(--bg-secondary); border: 1px solid var(--card-border); color: var(--text-main); font-family: var(--font-sans); border-radius: 4px; outline: none;">
+
+            <textarea name="message" rows="5" placeholder="Votre message... *" required
+                      style="width: 100%; padding: 12px; background: var(--bg-secondary); border: 1px solid var(--card-border); color: var(--text-main); font-family: var(--font-sans); border-radius: 4px; resize: vertical; outline: none;"></textarea>
+
+            <button type="submit" class="btn-primary" style="align-self: flex-start; margin-top: 10px;">
+                >_ Envoyer la requête
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}
