@@ -49,6 +49,11 @@ class Certification(db.Model):
     name = db.Column(db.String(150), nullable=False)
     issuer = db.Column(db.String(100), nullable=True) # ex: "Harvard University"
     date_obtained = db.Column(db.String(100), nullable=True)
+    
+    # Nouveaux champs pour les fichiers
+    logo_filename = db.Column(db.String(255), nullable=True) # Logo de l'entreprise
+    file_filename = db.Column(db.String(255), nullable=True) # Le certificat (PDF ou Image)
+    
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Project(db.Model):

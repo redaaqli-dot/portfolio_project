@@ -360,3 +360,24 @@ h1, h2, h3, h4 {
         gap: 30px !important;
     }
 }
+/* --- Correction du Header (Menu) pour Mobile --- */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column !important; /* Empile le logo et le menu verticalement */
+        justify-content: center !important;
+        padding: 15px 10px !important;
+        gap: 15px;
+    }
+
+    header nav, header div {
+        display: flex;
+        flex-wrap: wrap; /* Permet aux liens de passer à la ligne si besoin */
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* Rend les liens du menu un peu plus petits pour s'adapter à l'écran */
+    header a {
+        font-size: 0.9rem !important;
+    }
+}

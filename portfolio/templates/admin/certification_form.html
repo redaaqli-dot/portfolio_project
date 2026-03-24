@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="admin-section" style="padding: 20px 0 50px 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="font-size: 1.5rem;"><span class="cyber-accent">#</span> {% if cert %}Éditer{% else %}Ajouter{% endif %} une Certification</h2>
+        <a href="{{ url_for('main.manage_certifications') }}" class="btn-outline"><- Annuler</a>
+    </div>
+
+    <div class="project-card">
+        <form method="POST" action="{% if cert %}{{ url_for('main.edit_certification', id=cert.id) }}{% else %}{{ url_for('main.add_certification') }}{% endif %}" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <input type="text" name="name" value="{{ cert.name if cert else '' }}" placeholder="Nom de la certification (ex: CCNA) *" required style="padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+            
+            <input type="text" name="issuer" value="{{ cert.issuer if cert else '' }}" placeholder="Organisation (ex: Cisco) *" required style="padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+            
+            <input type="text" name="date_obtained" value="{{ cert.date_obtained if cert else '' }}" placeholder="Date (ex: Octobre 2025)" style="padding: 10px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px;">
+
+            <div style="border: 1px dashed var(--card-border); padding: 15px; border-radius: 4px;">
+                <label style="display: block; color: var(--cyber-blue); margin-bottom: 10px;">📸 Logo de l'organisation (Image)</label>
+                {% if cert and cert.logo_filename %}
+                    <p style="font-size: 0.8rem; color: var(--cyber-green); margin-bottom: 10px;">Logo actuel : {{ cert.logo_filename }}</p>
+                {% endif %}
+                <input type="file" name="logo" accept="image/*" style="color: var(--text-muted);">
+            </div>
+
+            <div style="border: 1px dashed var(--card-border); padding: 15px; border-radius: 4px;">
+                <label style="display: block; color: var(--cyber-green); margin-bottom: 10px;">📄 Preuve du certificat (PDF ou Image)</label>
+                {% if cert and cert.file_filename %}
+                    <p style="font-size: 0.8rem; color: var(--cyber-green); margin-bottom: 10px;">Fichier actuel : {{ cert.file_filename }}</p>
+                {% endif %}
+                <input type="file" name="cert_file" accept=".pdf,image/*" style="color: var(--text-muted);">
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 10px; padding: 15px;">>_ Sauvegarder la certification</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

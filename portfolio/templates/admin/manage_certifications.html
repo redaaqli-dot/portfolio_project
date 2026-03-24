@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="admin-section" style="padding: 20px 0 50px 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="font-size: 1.5rem;"><span class="cyber-accent">#</span> Certifications</h2>
+        <div>
+            <a href="{{ url_for('main.add_certification') }}" class="btn-primary" style="margin-right: 10px;">+ Ajouter Certif</a>
+            <a href="{{ url_for('main.admin_dashboard') }}" class="btn-outline"><- Retour</a>
+        </div>
+    </div>
+
+    <div class="project-card" style="padding: 0; overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead style="background: var(--bg-main); border-bottom: 1px solid var(--card-border);">
+                <tr>
+                    <th style="padding: 15px; color: var(--cyber-blue);">Nom</th>
+                    <th style="padding: 15px; color: var(--cyber-blue);">Organisation</th>
+                    <th style="padding: 15px; color: var(--cyber-blue);">Logo/Fichier</th>
+                    <th style="padding: 15px; color: var(--cyber-blue); text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in certifications %}
+                <tr style="border-bottom: 1px solid rgba(0,255,204,0.05);">
+                    <td style="padding: 15px; font-weight: bold;">{{ c.name }}</td>
+                    <td style="padding: 15px; color: var(--text-muted);">{{ c.issuer }}</td>
+                    <td style="padding: 15px; color: var(--cyber-green);">
+                        {% if c.logo_filename %}📸{% endif %} 
+                        {% if c.file_filename %}📄{% endif %}
+                    </td>
+                    <td style="padding: 15px; text-align: right; display: flex; gap: 10px; justify-content: flex-end;">
+                        <a href="{{ url_for('main.edit_certification', id=c.id) }}" class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">Modifier</a>
+                        <form action="{{ url_for('main.delete_certification', id=c.id) }}" method="POST" onsubmit="return confirm('Purger cette certification ?');">
+                            <button type="submit" class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem; border-color: #ff003c; color: #ff003c; cursor: pointer;">Purger</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

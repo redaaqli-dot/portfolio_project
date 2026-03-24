@@ -349,3 +349,103 @@ def delete_experience(id):
     db.session.commit()
     flash("Expérience purgée de la base de données.", "success")
     return redirect(url_for('main.manage_experiences'))
+# ==========================================
+# CRUD CERTIFICATIONS
+# ==========================================
+
+# Route pour afficher les fichiers des certifications (Logos et PDFs)
+@bp.route('/uploads/certs/<filename>')
+def uploaded_cert(filename):
+    # On crée le chemin vers le dossier uploads/certs
+    from flask import current_app
+    certs_dir = os.path.join(current_app.root_path, '..', 'uploads', 'certs')
+    return send_from_directory(certs_dir, filename)
+
+@bp.route('/admin/certifications')
+def manage_certifications():
+    if 'is_admin' not in session: return redirect(url_for('main.admin_login'))
+    certifications = Certification.query.order_by(Certification.id.desc()).all()
+    return render_template('admin/manage_certifications.html', certifications=certifications)
+
+@bp.route('/admin/certifications/add', methods=['GET', 'POST'])
+def add_certification():
+    if 'is_admin' not in session: return redirect(url_for('main.admin_login'))
+    
+    if request.method == 'POST':
+        from flask import current_app
+        certs_dir = os.path.join(current_app.root_path, '..', 'uploads', 'certs')
+        os.makedirs(certs_dir, exist_ok=True) # Crée le dossier s'il n'existe pas
+
+        new_cert = Certification(
+            name=request.form.get('name'),
+            issuer=request.form.get('issuer'),
+            date_obtained=request.form.get('date_obtained')
+        )
+
+        # Sauvegarde du Logo
+        logo = request.files.get('logo')
+        if logo and logo.filename:
+            logo_name = secure_filename(logo.filename)
+            logo.save(os.path.join(certs_dir, logo_name))
+            new_cert.logo_filename = logo_name
+
+        # Sauvegarde du Fichier (PDF/Image)
+        cert_file = request.files.get('cert_file')
+        if cert_file and cert_file.filename:
+            file_name = secure_filename(cert_file.filename)
+            cert_file.save(os.path.join(certs_dir, file_name))
+            new_cert.file_filename = file_name
+
+        db.session.add(new_cert)
+        db.session.commit()
+        flash("Nouvelle certification authentifiée.", "success")
+        return redirect(url_for('main.manage_certifications'))
+
+    return render_template('admin/certification_form.html', cert=None)
+
+@bp.route('/admin/certifications/edit/<int:id>', methods=['GET', 'POST'])
+def edit_certification(id):
+    if 'is_admin' not in session: return redirect(url_for('main.admin_login'))
+    
+    cert = Certification.query.get_or_404(id)
+
+    if request.method == 'POST':
+        from flask import current_app
+        import os
+        from werkzeug.utils import secure_filename
+        
+        certs_dir = os.path.join(current_app.root_path, '..', 'uploads', 'certs')
+        os.makedirs(certs_dir, exist_ok=True)
+
+        # Mise à jour des textes
+        cert.name = request.form.get('name')
+        cert.issuer = request.form.get('issuer')
+        cert.date_obtained = request.form.get('date_obtained')
+
+        # Mise à jour du Logo (s'il y en a un nouveau)
+        logo = request.files.get('logo')
+        if logo and logo.filename:
+            logo_name = secure_filename(logo.filename)
+            logo.save(os.path.join(certs_dir, logo_name))
+            cert.logo_filename = logo_name
+
+        # Mise à jour du Fichier (s'il y en a un nouveau)
+        cert_file = request.files.get('cert_file')
+        if cert_file and cert_file.filename:
+            file_name = secure_filename(cert_file.filename)
+            cert_file.save(os.path.join(certs_dir, file_name))
+            cert.file_filename = file_name
+
+        db.session.commit()
+        flash("Certification mise à jour avec succès.", "success")
+        return redirect(url_for('main.manage_certifications'))
+
+    return render_template('admin/certification_form.html', cert=cert)
+@bp.route('/admin/certifications/delete/<int:id>', methods=['POST'])
+def delete_certification(id):
+    if 'is_admin' not in session: return redirect(url_for('main.admin_login'))
+    cert = Certification.query.get_or_404(id)
+    db.session.delete(cert)
+    db.session.commit()
+    flash("Certification révoquée.", "success")
+    return redirect(url_for('main.manage_certifications'))
